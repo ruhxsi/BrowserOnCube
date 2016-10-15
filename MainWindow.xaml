@@ -3,10 +3,113 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:helix="http://helix-toolkit.org/wpf"
         xmlns:local="clr-namespace:BrowserOnCube"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+
+    <UniformGrid  Columns="2">
+        <helix:HelixViewport3D Background="#EEEEEE" Name="viewLeft">
+            <helix:DefaultLights/>
+            <helix:RotateManipulator/>
+
+            <Viewport2DVisual3D>
+                <Viewport2DVisual3D.Material>
+                    <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="GreenYellow"/>
+                </Viewport2DVisual3D.Material>
+
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="-1,1,1 -1,-1,1 1,-1,1 1,1,1"
+                                    TriangleIndices="0,1,2 2,3,0"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"/>
+                </Viewport2DVisual3D.Geometry>
+
+                <Viewport2DVisual3D.Visual>
+                    <StackPanel>
+                        <Button Content="Click one" Click="button_Click" Background="GreenYellow"/>
+                    </StackPanel>
+                </Viewport2DVisual3D.Visual>
+            </Viewport2DVisual3D>
+
+            <Viewport2DVisual3D>
+                <Viewport2DVisual3D.Material>
+                    <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="Red"/>
+                </Viewport2DVisual3D.Material>
+
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="1,1,1 1,-1,1 1,-1,-1 1,1,-1"
+                                    TriangleIndices="0,1,2 2,3,0"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"/>
+                </Viewport2DVisual3D.Geometry>
+
+                <Viewport2DVisual3D.Visual>
+                    <StackPanel>
+                        <Button Content="Click two" Click="button_Click" Background="Red"/>
+                    </StackPanel>
+                </Viewport2DVisual3D.Visual>
+            </Viewport2DVisual3D>
+            <Viewport2DVisual3D>
+                <Viewport2DVisual3D.Material>
+                    <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="LightBlue"/>
+                </Viewport2DVisual3D.Material>
+
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="-1,1,-1 -1,1,1 1,1,1 1,1,-1"
+                                    TriangleIndices="0,1,2 2,3,0"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"/>
+                </Viewport2DVisual3D.Geometry>
+
+                <Viewport2DVisual3D.Visual>
+                    <StackPanel>
+                        <InkCanvas 
+                            Background="LightPink" 
+                            Name="inkCanvas" 
+                            MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp"/>
+                    </StackPanel>
+                </Viewport2DVisual3D.Visual>
+            </Viewport2DVisual3D>
+        </helix:HelixViewport3D>
+
+        <helix:HelixViewport3D Background="#DDEEAE" ViewCubeTopText="Top" ViewCubeHorizontalPosition="Center" Name="viewRight"
+                               ShowCoordinateSystem="True">
+            <helix:DefaultLights/>
+            <helix:RotateManipulator/>
+            
+            <helix:ArrowVisual3D Point1="-1,-1,-1" Point2="2,2,2" Diameter="0.1"/>
+
+            <ModelUIElement3D x:Name="cubeRight" MouseEnter="cubeRight_MouseEnter" MouseLeave="cubeRight_MouseLeave">
+                <GeometryModel3D x:Name="cubeRightModel3D">
+                    <GeometryModel3D.Material>
+                        <DiffuseMaterial>
+                            <DiffuseMaterial.Brush>
+                                <ImageBrush ImageSource="Jibe.png"/>
+                            </DiffuseMaterial.Brush>
+                        </DiffuseMaterial>
+                    </GeometryModel3D.Material>
+                    <GeometryModel3D.BackMaterial>
+                        <DiffuseMaterial Brush="LightBlue"/>
+                    </GeometryModel3D.BackMaterial>
+
+                    <GeometryModel3D.Geometry>
+                        <MeshGeometry3D Positions="-1,1,1 -1,-1,1 1,-1,1 1,1,1
+                                                    1,1,1 1,-1,1 1,-1,-1 1,1,-1 
+                                                    -1,1,-1 -1,1,1 1,1,1 1,1,-1"
+                                    TriangleIndices="0,1,2 2,3,0 
+                                                     4,5,6 6,7,4
+                                                     8,9,10 10,11,8"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0
+                                                        0,0 0,1 1,1 1,0
+                                                        0,0 0,1 1,1 1,0"/>
+                    </GeometryModel3D.Geometry>
+                </GeometryModel3D>
+            </ModelUIElement3D>
+        </helix:HelixViewport3D>
+
+        <StackPanel>
+        <Slider Name="sliderRotate" ValueChanged="sliderRotate_ValueChanged"
+                    Minimum="0" Maximum="360" Value="10"/>
+            <Label Content="{Binding Path=Value, ElementName=sliderRotate}" 
+                   ContentStringFormat="Rotation: {0:0.0}" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </UniformGrid>
 </Window>
